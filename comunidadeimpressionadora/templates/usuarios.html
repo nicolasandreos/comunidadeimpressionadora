@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Usuarios</h1>
+        {% for usuario in lista_usuarios %}
+            <section>
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div class="col col-md-9 col-lg-7 col-xl-5">
+                    <div  style="border-radius: 15px;">
+                      <div class="card-body p-4">
+                        <div class="d-flex text-black">
+                          <div class="flex-shrink-0">
+                            <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(usuario.foto_perfil)) }}"
+                              alt="Generic placeholder image" class="img-fluid"
+                              style="width: 200px; border-radius: 10px; pt-3">
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h5 class="mb-1">{{ usuario.username }}</h5>
+                            <p class="mb-2 pb-1" style="color: #2b2a2a;">{{ usuario.email }}</p>
+                            <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background: #f2f5f8;">
+                              <div>
+                                <p class="small text-muted mb-1">Cursos</p>
+                                {% if 'Impressionador' in usuario.cursos %}
+                                   <p class="mb-0">{{ usuario.cursos.count(';') + 1 }}</p>
+                                {% else %}
+                                   <p class="mb-0">0</p>
+                                {% endif %}
+                              </div>
+                              <div class="ms-auto">
+                                <p class="small text-muted mb-1">Posts</p>
+                                <p class="mb-0">{{ usuario.contar_posts() }}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="row justify-content-center">
+              <div class="col col-6" style="text-align: center">
+                  {% if 'Impressionador' in usuario.cursos %}
+                    <h4>Cursos</h4><br>
+                    {% for curso in usuario.cursos.split(';') %}
+                       <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
+                    {% endfor %}
+                  {% else %}
+                    <button type="button" class="btn btn-secondary mb-5">Não Informado</button>
+                  {% endif %}
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+<div class="mt-4">
+
+</div>
+{% endblock %}

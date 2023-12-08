@@ -1,0 +1,67 @@
+{% extends 'perfil.html' %}
+
+{% block form_editar_perfil %}
+    <hr>
+    <div class="container">
+    <form method="post", action="" class="border mt-5 px-5 py-3", enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <legend>Editar Perfil</legend>
+        <fieldset>
+             <div class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for erro in form.username.errors %}
+                            {{ erro }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for erro in form.email.errors %}
+                            {{ erro }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <div class="mt-3 mb-2">
+                    {{ form.foto_perfil.label }}
+                </div>
+                {{ form.foto_perfil(class="form-control-file") }}
+                {% if form.foto_perfil.errors %}
+                    {% for erro in form.foto_perfil.errors %}
+                        <span class="text-danger">{{ erro }}</span><br>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </fieldset>
+        <hr>
+        <h2>Cursos</h2>
+        {% for campo in form %}
+            {% if 'curso' in campo.name %}
+                <div class="form-group">
+                    {% if campo.label.text in current_user.cursos %}
+                        {{ campo(class="form-check-input mt-3", checked=True) }}
+                        {{ campo.label(class="form-check-label mt-2") }}
+                    {% else %}
+                        {{ campo(class="form-check-input mt-3") }}
+                        {{ campo.label(class="form-check-label mt-2") }}
+                    {% endif %}
+
+                </div>
+            {% endif %}
+        {% endfor %}
+        {{ form.submit(class="mt-3 btn btn-primary") }}
+    </form>
+</div>
+{% endblock %}
